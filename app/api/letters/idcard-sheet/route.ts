@@ -13,6 +13,19 @@ type CommandResult = {
   stderr: string;
 };
 
+function parseResult(output: string) {
+  const match = output.match(/RESULT:\s*success=(\d+)\s+failed=(\d+)\s+output=(.+?)(?:\s+printed=\d+)?\s*$/m);
+  if (!match) {
+    return null;
+  }
+
+  return {
+    successCount: Number(match[1]),
+    failedCount: Number(match[2]),
+    outputPath: match[3].trim(),
+  };
+}
+
 function runCommand(command: string, args: string[]): Promise<CommandResult> {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
@@ -41,25 +54,32 @@ function runCommand(command: string, args: string[]): Promise<CommandResult> {
   });
 }
 
-async function runIdCardSheet(scriptPath: string, studentsPayload: object[], outputDir: string) {
+async function runIdCardSheet(
+  scriptPath: string,
+  studentsPayload: object[],
+  outputDir: string,
+  options?: { sendToPrinter?: boolean }
+) {
   const venvPython = path.join(process.cwd(), '.venv', 'Scripts', 'python.exe');
   const configuredPython =
     process.env.PYTHON_EXECUTABLE || venvPython;
 
   const studentsJson = JSON.stringify(studentsPayload);
+  const commonArgs = ['--students-json', studentsJson, '--output', outputDir];
+  const printArgs = options?.sendToPrinter ? ['--print'] : [];
 
   const attempts: Array<{ command: string; args: string[] }> = [
     {
       command: configuredPython,
-      args: [scriptPath, '--students-json', studentsJson, '--print', '--output', outputDir],
+      args: [scriptPath, ...commonArgs, ...printArgs],
     },
     {
       command: 'py',
-      args: ['-3', scriptPath, '--students-json', studentsJson, '--print', '--output', outputDir],
+      args: ['-3', scriptPath, ...commonArgs, ...printArgs],
     },
     {
       command: 'python',
-      args: [scriptPath, '--students-json', studentsJson, '--print', '--output', outputDir],
+      args: [scriptPath, ...commonArgs, ...printArgs],
     },
   ];
 
@@ -84,6 +104,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
     const internIds: string[] = Array.isArray(body?.internIds) ? body.internIds : [];
+    const mode = body?.mode === 'print' ? 'print' : 'download';
 
     if (!internIds.length) {
       return NextResponse.json({ error: 'No students selected' }, { status: 400 });
@@ -107,17 +128,52 @@ export async function POST(request: Request) {
 
     const scriptPath = path.join(process.cwd(), 'generate_idcard_sheet.py');
     const tempOutputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'websa-idcard-'));
-    const result = await runIdCardSheet(scriptPath, studentsPayload, tempOutputDir);
+    const result = await runIdCardSheet(scriptPath, studentsPayload, tempOutputDir, {
+      sendToPrinter: mode === 'print',
+    });
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: `ID card data sheet for ${selected.length} student(s) sent to printer`,
-        stdout: result.stdout,
-        stderr: result.stderr,
+    if (mode === 'print') {
+      return NextResponse.json(
+        {
+          success: true,
+          message: `ID card data sheet for ${selected.length} student(s) sent to printer on server machine`,
+          stdout: result.stdout,
+          stderr: result.stderr,
+        },
+        { status: 200 }
+      );
+    }
+
+    const parsed = parseResult(result.stdout);
+    const outputPath = parsed?.outputPath || '';
+    const absoluteOutputPath = path.isAbsolute(outputPath)
+      ? outputPath
+      : path.join(process.cwd(), outputPath);
+
+    if (!outputPath || !fs.existsSync(absoluteOutputPath)) {
+      return NextResponse.json({ error: 'Generated ACS biometric memo file was not found.' }, { status: 500 });
+    }
+
+    const fileBuffer = fs.readFileSync(absoluteOutputPath);
+    const fileName = path.basename(absoluteOutputPath);
+
+    try {
+      fs.unlinkSync(absoluteOutputPath);
+      if (tempOutputDir.startsWith(os.tmpdir()) && fs.existsSync(tempOutputDir)) {
+        fs.rmdirSync(tempOutputDir);
+      }
+    } catch {
+      // Ignore cleanup failures.
+    }
+
+    return new NextResponse(fileBuffer, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'Content-Disposition': `attachment; filename="${fileName}"`,
+        'Cache-Control': 'no-store',
       },
-      { status: 200 }
-    );
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to generate ID card data sheet';
     return NextResponse.json({ error: message }, { status: 500 });

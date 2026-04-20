@@ -7,12 +7,25 @@ import * as XLSX from 'xlsx';
 /* ────────────────────────────────────────────────────────────────────────── */
 
 const EXCEL_FILENAME = 'Database_Student.xlsx';
+const PENDING_FILE = path.join(process.cwd(), 'data', 'pending-applications.json');
 
-function resolveExcelPath(): string {
-  const configured =
+function getConfiguredExcelPath(): string {
+  const raw =
     process.env.MASTER_DB_PATH?.trim() ||
     process.env.EXCEL_DB_PATH?.trim() ||
     '';
+
+  if (!raw) return '';
+
+  const unquoted = raw.replace(/^['\"]|['\"]$/g, '');
+  const normalized = unquoted.replace(/\\/g, path.sep);
+  return path.isAbsolute(normalized)
+    ? normalized
+    : path.resolve(process.cwd(), normalized);
+}
+
+function resolveExcelPath(): string {
+  const configured = getConfiguredExcelPath();
 
   const candidates: string[] = [];
 
@@ -28,7 +41,9 @@ function resolveExcelPath(): string {
     }
   }
 
-  candidates.push(path.join(process.cwd(), EXCEL_FILENAME));
+  if (!configured) {
+    candidates.push(path.join(process.cwd(), EXCEL_FILENAME));
+  }
 
   const existingPath = candidates.find((candidate) => fs.existsSync(candidate));
   if (existingPath) return existingPath;
@@ -71,6 +86,28 @@ export interface Intern {
   remarks: string;
   submitted_at: string;
 }
+
+type PendingSubmissionPayload = {
+  joining_month: string;
+  name_college_dean: string;
+  name_college: string;
+  state: string;
+  district: string;
+  salute: string;
+  name_student: string;
+  course: string;
+  project_from_date: string;
+  project_to_date: string;
+  student_email: string;
+  student_phone: string;
+  email_college_dean: string;
+  subject: string;
+};
+
+type PendingSubmission = {
+  submitted_at: string;
+  payload: PendingSubmissionPayload;
+};
 
 function formatExcelDate(value: unknown): string {
   if (!value) return '';
@@ -307,6 +344,62 @@ function loadExcel(): Intern[] {
   return interns;
 }
 
+function loadPendingSubmissionsAsInterns(existingInterns: Intern[]): Intern[] {
+  if (!fs.existsSync(PENDING_FILE)) return [];
+
+  let pending: PendingSubmission[] = [];
+  try {
+    const parsed = JSON.parse(fs.readFileSync(PENDING_FILE, 'utf8') || '[]');
+    pending = Array.isArray(parsed) ? (parsed as PendingSubmission[]) : [];
+  } catch {
+    return [];
+  }
+
+  if (pending.length === 0) return [];
+
+  const maxSlNo = existingInterns.reduce((max, intern) => Math.max(max, Number(intern.sl_no) || 0), 0);
+
+  return pending.map((item, index) => {
+    const payload = item.payload || ({} as PendingSubmissionPayload);
+    const ts = item.submitted_at || new Date().toISOString();
+    const key = Date.parse(ts);
+
+    return {
+      id: `pending-${Number.isFinite(key) ? key : Date.now()}-${index + 1}`,
+      sl_no: maxSlNo + index + 1,
+      month: str(payload.joining_month),
+      name: str(payload.name_student),
+      salute: str(payload.salute),
+      email: str(payload.student_email),
+      phone: str(payload.student_phone),
+      course: str(payload.course),
+      college: str(payload.name_college),
+      college_dean_hod: str(payload.name_college_dean),
+      district: str(payload.district),
+      state: str(payload.state),
+      specialization: '',
+      guide_name: '',
+      guide_area: '',
+      guide_mail: '',
+      guide_reporting_officer: '',
+      dd: '',
+      start_date: str(payload.project_from_date),
+      end_date: str(payload.project_to_date),
+      allotment_date: '',
+      guide_allocation_date: '',
+      signed_application_date: '',
+      biometric_date: '',
+      hod_mail: str(payload.email_college_dean),
+      mode_of_work: '',
+      location: str(payload.district),
+      project_or_internship: '',
+      project_title: str(payload.subject),
+      remarks: 'Pending Excel sync',
+      submitted_at: ts,
+    };
+  });
+}
+
 /* ─── Cache (refreshed every 30 seconds) ─────────────────────────────────── */
 
 let cachedInterns: Intern[] | null = null;
@@ -316,7 +409,9 @@ const CACHE_TTL = 30_000;
 function getInterns(): Intern[] {
   const now = Date.now();
   if (!cachedInterns || now - cacheTimestamp > CACHE_TTL) {
-    cachedInterns = loadExcel();
+    const excelInterns = loadExcel();
+    const pendingInterns = loadPendingSubmissionsAsInterns(excelInterns);
+    cachedInterns = [...excelInterns, ...pendingInterns];
     cacheTimestamp = now;
   }
   return cachedInterns;

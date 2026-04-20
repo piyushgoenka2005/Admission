@@ -1,146 +1,5 @@
-import { NextResponse } from 'next/server';import { NextResponse } from 'next/server';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}  }    return NextResponse.json({ error: message }, { status: 500 });    const message = error instanceof Error ? error.message : 'Failed to generate closure certificate';  } catch (error) {    );      { status: 200 }      },        summary: parsed,        stderr: result.stderr,        stdout: result.stdout,        message: 'Closure certificate sent to printer',        success: true,      {    return NextResponse.json(    }      );        { status: 500 }        { error: `Print failed. ${result.stderr || result.stdout}`.trim() },      return NextResponse.json(    if (result.code !== 0 || (parsed && parsed.failedCount > 0)) {    const parsed = parseResult(result.stdout);    const result = await runClosureGeneration(scriptPath, studentPayload, tempOutputDir);    const tempOutputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'websa-closure-'));    const scriptPath = path.join(process.cwd(), 'generate_closure.py');    };      end_date: intern.end_date,      start_date: intern.start_date,      name: intern.name,    const studentPayload = {    }      return NextResponse.json({ error: 'Student not found' }, { status: 404 });    if (!intern) {    const intern = await getInternById(internId);    }      return NextResponse.json({ error: 'Student ID is required' }, { status: 400 });    if (!internId) {    const internId = typeof body?.internId === 'string' ? body.internId.trim() : '';    const body = await request.json().catch(() => ({}));  try {export async function POST(request: Request) {}  throw lastError instanceof Error ? lastError : new Error('Failed to execute generate_closure.py');  }    }      lastError = error;    } catch (error) {      lastError = new Error(result.stderr || result.stdout || `Command failed with code ${result.code}`);      }        return result;      if (result.code === 0) {      const result = await runCommand(attempt.command, attempt.args);    try {  for (const attempt of attempts) {  let lastError: unknown = null;  ];    },      args: [scriptPath, '--student-json', studentJson, '--print', '--output', outputDir],      command: 'python',    {    },      args: ['-3', scriptPath, '--student-json', studentJson, '--print', '--output', outputDir],      command: 'py',    {    },      args: [scriptPath, '--student-json', studentJson, '--print', '--output', outputDir],      command: configuredPython,    {  const attempts: Array<{ command: string; args: string[] }> = [  const studentJson = JSON.stringify(studentPayload);  const configuredPython = process.env.PYTHON_EXECUTABLE || venvPython;  const venvPython = path.join(process.cwd(), '.venv', 'Scripts', 'python.exe');async function runClosureGeneration(scriptPath: string, studentPayload: object, outputDir: string) {}  };    outputPath: match[3].trim(),    failedCount: Number(match[2]),    successCount: Number(match[1]),  return {  }    return null;  if (!match) {  const match = output.match(/RESULT:\s*success=(\d+)\s+failed=(\d+)\s+output=(.+)/);function parseResult(output: string) {}  });    });      resolve({ code: code ?? 1, stdout, stderr });    child.on('close', (code) => {    child.on('error', (error) => reject(error));    });      stderr += data.toString();    child.stderr.on('data', (data) => {    });      stdout += data.toString();    child.stdout.on('data', (data) => {    let stderr = '';    let stdout = '';    });      env: { ...process.env, NRSC_PRINTER: process.env.NRSC_PRINTER || '' },      windowsHide: true,      shell: false,      cwd: process.cwd(),    const child = spawn(command, args, {  return new Promise((resolve, reject) => {function runCommand(command: string, args: string[]): Promise<CommandResult> {};  stderr: string;  stdout: string;  code: number;type CommandResult = {export const runtime = 'nodejs';import { getInternById } from '@/lib/db';import os from 'os';import fs from 'fs';import path from 'path';import { spawn } from 'child_process';import { spawn } from 'child_process';
+﻿import { NextResponse } from 'next/server';
+import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
@@ -222,25 +81,31 @@ function resolveGeneratedFilePath(outputPath: string | undefined, fallbackDir: s
   return null;
 }
 
-async function runClosureGeneration(scriptPath: string, studentPayload: object, outputDir: string) {
+async function runClosureGeneration(
+  scriptPath: string,
+  studentPayload: object,
+  outputDir: string,
+  options?: { sendToPrinter?: boolean }
+) {
   const venvPython = path.join(process.cwd(), '.venv', 'Scripts', 'python.exe');
-  const configuredPython =
-    process.env.PYTHON_EXECUTABLE || venvPython;
+  const configuredPython = process.env.PYTHON_EXECUTABLE || venvPython;
 
   const studentJson = JSON.stringify(studentPayload);
+  const commonArgs = ['--student-json', studentJson, '--output', outputDir];
+  const printArgs = options?.sendToPrinter ? ['--print'] : [];
 
   const attempts: Array<{ command: string; args: string[] }> = [
     {
       command: configuredPython,
-      args: [scriptPath, '--student-json', studentJson, '--output', outputDir],
+      args: [scriptPath, ...commonArgs, ...printArgs],
     },
     {
       command: 'py',
-      args: ['-3', scriptPath, '--student-json', studentJson, '--output', outputDir],
+      args: ['-3', scriptPath, ...commonArgs, ...printArgs],
     },
     {
       command: 'python',
-      args: [scriptPath, '--student-json', studentJson, '--output', outputDir],
+      args: [scriptPath, ...commonArgs, ...printArgs],
     },
   ];
 
@@ -266,12 +131,15 @@ async function handleClosure(request: Request) {
 
   try {
     let internId = '';
+    let mode: 'print' | 'download' = 'download';
     if (request.method === 'GET') {
       const { searchParams } = new URL(request.url);
       internId = (searchParams.get('internId') || '').trim();
+      mode = searchParams.get('mode') === 'print' ? 'print' : 'download';
     } else {
       const body = await request.json().catch(() => ({}));
       internId = typeof body?.internId === 'string' ? body.internId.trim() : '';
+      mode = body?.mode === 'print' ? 'print' : 'download';
     }
 
     if (!internId) {
@@ -291,13 +159,28 @@ async function handleClosure(request: Request) {
 
     const scriptPath = path.join(process.cwd(), 'generate_closure.py');
     tempOutputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'websa-closure-'));
-    const result = await runClosureGeneration(scriptPath, studentPayload, tempOutputDir);
+    const result = await runClosureGeneration(scriptPath, studentPayload, tempOutputDir, {
+      sendToPrinter: mode === 'print',
+    });
     const parsed = parseResult(result.stdout);
 
     if (result.code !== 0 || (parsed && parsed.failedCount > 0)) {
       return NextResponse.json(
         { error: `Generation failed. ${result.stderr || result.stdout}`.trim() },
         { status: 500 }
+      );
+    }
+
+    if (mode === 'print') {
+      return NextResponse.json(
+        {
+          success: true,
+          message: 'Closure certificate sent to printer on server machine.',
+          stdout: result.stdout,
+          stderr: result.stderr,
+          summary: parsed,
+        },
+        { status: 200 }
       );
     }
 
@@ -316,7 +199,7 @@ async function handleClosure(request: Request) {
       status: 200,
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'Content-Disposition': `inline; filename="${fileName}"`,
+        'Content-Disposition': `attachment; filename="${fileName}"`,
         'Cache-Control': 'no-store',
       },
     });

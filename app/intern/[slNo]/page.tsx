@@ -43,12 +43,19 @@ function getInternshipStatusLabel(intern: Intern): string {
   return 'Upcoming';
 }
 
-function getDurationMonths(startDate: string, endDate: string): string {
-  const start = new Date(startDate).getTime();
-  const end = new Date(endDate).getTime();
-  if (Number.isNaN(start) || Number.isNaN(end) || end < start) return '-';
-  const months = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24 * 30.44)));
-  return `${months} month${months === 1 ? '' : 's'}`;
+function getDurationDays(startDate: string, endDate: string): string {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return '-';
+
+  const startDay = new Date(start.getFullYear(), start.getMonth(), start.getDate()).getTime();
+  const endDay = new Date(end.getFullYear(), end.getMonth(), end.getDate()).getTime();
+  if (endDay < startDay) return '-';
+
+  const dayMs = 1000 * 60 * 60 * 24;
+  const days = Math.floor((endDay - startDay) / dayMs) + 1;
+  const safeDays = Math.max(days, 1);
+  return `${safeDays} day${safeDays === 1 ? '' : 's'}`;
 }
 
 export default function InternDetailPage() {
@@ -252,7 +259,7 @@ export default function InternDetailPage() {
   const timelineFields: Array<[string, string]> = [
     ['Start Date', formatPrettyDate(intern.start_date)],
     ['End Date', formatPrettyDate(intern.end_date)],
-    ['Duration', getDurationMonths(intern.start_date, intern.end_date)],
+    ['Duration', getDurationDays(intern.start_date, intern.end_date)],
     ['Allotment Date', formatPrettyDate(intern.allotment_date)],
     ['Guide Allocation Date', formatPrettyDate(intern.guide_allocation_date)],
     ['Signed Application Date', formatPrettyDate(intern.signed_application_date)],

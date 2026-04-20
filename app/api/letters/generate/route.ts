@@ -54,24 +54,38 @@ function parseResult(output: string) {
   };
 }
 
-async function runLetterGeneration(scriptPath: string, studentPayload: object, outputDir: string) {
+function parseOutputPath(stdout: string): string | null {
+  const parsed = parseResult(stdout);
+  if (!parsed || parsed.successCount === 0) return null;
+  return parsed.outputPath;
+}
+
+async function runLetterGeneration(
+  scriptPath: string,
+  studentPayload: object,
+  outputDir: string,
+  options?: { sendToPrinter?: boolean; stripSignature?: boolean }
+) {
   const venvPython = path.join(process.cwd(), '.venv', 'Scripts', 'python.exe');
   const configuredPython = process.env.PYTHON_EXECUTABLE || venvPython;
 
   const studentJson = JSON.stringify(studentPayload);
+  const commonArgs = ['--student-json', studentJson, '--non-interactive', '--no-table', '--output', outputDir];
+  const printArgs = options?.sendToPrinter ? ['--print'] : [];
+  const noSignArgs = options?.stripSignature ? ['--no-sign'] : [];
 
   const attempts: Array<{ command: string; args: string[] }> = [
     {
       command: configuredPython,
-      args: [scriptPath, '--student-json', studentJson, '--non-interactive', '--no-table', '--print', '--output', outputDir],
+      args: [scriptPath, ...commonArgs, ...printArgs, ...noSignArgs],
     },
     {
       command: 'py',
-      args: ['-3', scriptPath, '--student-json', studentJson, '--non-interactive', '--no-table', '--print', '--output', outputDir],
+      args: ['-3', scriptPath, ...commonArgs, ...printArgs, ...noSignArgs],
     },
     {
       command: 'python',
-      args: [scriptPath, '--student-json', studentJson, '--non-interactive', '--no-table', '--print', '--output', outputDir],
+      args: [scriptPath, ...commonArgs, ...printArgs, ...noSignArgs],
     },
   ];
 
@@ -96,6 +110,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
     const internId = typeof body?.internId === 'string' ? body.internId.trim() : '';
+    const mode = body?.mode === 'print' ? 'print' : 'download';
 
     if (!internId) {
       return NextResponse.json({ error: 'Student ID is required' }, { status: 400 });
@@ -127,26 +142,65 @@ export async function POST(request: Request) {
 
     const scriptPath = path.join(process.cwd(), 'generate_letter.py');
     const tempOutputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'websa-offer-print-'));
-    const result = await runLetterGeneration(scriptPath, studentPayload, tempOutputDir);
+    const result = await runLetterGeneration(scriptPath, studentPayload, tempOutputDir, {
+      sendToPrinter: mode === 'print',
+      stripSignature: mode === 'download',
+    });
     const parsed = parseResult(result.stdout);
 
     if (result.code !== 0 || (parsed && parsed.failedCount > 0)) {
       return NextResponse.json(
-        { error: `Print failed. ${result.stderr || result.stdout}`.trim() },
+        { error: `Letter generation failed. ${result.stderr || result.stdout}`.trim() },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: 'Offer letter sent to printer',
-        stdout: result.stdout,
-        stderr: result.stderr,
-        summary: parsed,
+    if (mode === 'print') {
+      return NextResponse.json(
+        {
+          success: true,
+          message: 'Offer letter sent to printer on server machine.',
+          stdout: result.stdout,
+          stderr: result.stderr,
+          summary: parsed,
+        },
+        { status: 200 }
+      );
+    }
+
+    const outputPath = parseOutputPath(result.stdout);
+    if (!outputPath) {
+      return NextResponse.json({ error: 'Generated file path was not found in script output.' }, { status: 500 });
+    }
+
+    const absoluteOutputPath = path.isAbsolute(outputPath)
+      ? outputPath
+      : path.join(process.cwd(), outputPath);
+
+    if (!fs.existsSync(absoluteOutputPath)) {
+      return NextResponse.json({ error: `Generated file not found at: ${absoluteOutputPath}` }, { status: 500 });
+    }
+
+    const fileBuffer = fs.readFileSync(absoluteOutputPath);
+    const fileName = path.basename(absoluteOutputPath);
+
+    try {
+      fs.unlinkSync(absoluteOutputPath);
+      if (tempOutputDir.startsWith(os.tmpdir()) && fs.existsSync(tempOutputDir)) {
+        fs.rmdirSync(tempOutputDir);
+      }
+    } catch {
+      // Ignore cleanup failures.
+    }
+
+    return new NextResponse(fileBuffer, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'Content-Disposition': `attachment; filename="${fileName}"`,
+        'Cache-Control': 'no-store',
       },
-      { status: 200 }
-    );
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to generate offer letter';
     return NextResponse.json({ error: message }, { status: 500 });

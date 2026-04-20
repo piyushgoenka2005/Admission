@@ -1,0 +1,23 @@
+﻿{
+    "religion":  "Others",
+    "blood_group":  "O+",
+    "session":  "2026",
+    "dob":  "2010-01-01",
+    "mobile_no":  "9876543210",
+    "group":  "Science",
+    "email":  "test@example.com",
+    "class":  "10",
+    "whatsapp_no":  "9876543210",
+    "sl_no":  "12345",
+    "gender":  "Male",
+    "permanent_address":  "Address Test",
+    "student_category":  "General",
+    "admission_date":  "2023-10-27",
+    "tc_no":  "TC123",
+    "mother_name":  "Mother Test",
+    "student_name":  "Student Test",
+    "previous_school":  "School Test",
+    "father_name":  "Father Test",
+    "present_address":  "Address Test",
+    "applicant_name":  "Verification Test"
+}

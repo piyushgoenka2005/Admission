@@ -149,17 +149,18 @@ function formatCompactDate(value: string): string {
   return `${day}${suffix} ${month} ${year}`;
 }
 
-function getRoundedDurationMonths(startDate: string, endDate: string): string {
-  const start = new Date(startDate).getTime();
-  const end = new Date(endDate).getTime();
+function getDurationDays(startDate: string, endDate: string): string {
+  const start = toDateOnlyTimestamp(startDate);
+  const end = toDateOnlyTimestamp(endDate);
 
-  if (Number.isNaN(start) || Number.isNaN(end) || end < start) {
+  if (start === null || end === null || end < start) {
     return '-';
   }
 
-  const months = Math.round((end - start) / (1000 * 60 * 60 * 24 * 30.44));
-  const safeMonths = Math.max(months, 1);
-  return `${safeMonths} month${safeMonths === 1 ? '' : 's'}`;
+  const dayMs = 1000 * 60 * 60 * 24;
+  const days = Math.floor((end - start) / dayMs) + 1;
+  const safeDays = Math.max(days, 1);
+  return `${safeDays} day${safeDays === 1 ? '' : 's'}`;
 }
 
 function toDateOnlyTimestamp(value: string): number | null {
@@ -198,6 +199,8 @@ export function InternsDashboard() {
   const [printingIdSheet, setPrintingIdSheet] = useState(false);
   const [idSheetMessage, setIdSheetMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [showIdCardDialog, setShowIdCardDialog] = useState(false);
+  const [exportingFiltered, setExportingFiltered] = useState(false);
+  const [exportMessage, setExportMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const fetchInterns = async () => {
     try {
       setLoading(true);
@@ -402,28 +405,65 @@ export function InternsDashboard() {
     });
 
     try {
+      const isServerLocalHost =
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname === '::1';
+      const mode = isServerLocalHost ? 'print' : 'download';
+
       const response = await fetch('/api/letters/generate', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ internId: intern.id }),
+        body: JSON.stringify({ internId: intern.id, mode }),
       });
-      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to print offer letter');
+        let errorMessage = 'Failed to generate offer letter';
+        try {
+          const data = await response.json();
+          errorMessage = data.error || errorMessage;
+        } catch {
+          // Ignore JSON parse errors and use fallback message.
+        }
+        throw new Error(errorMessage);
       }
+
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const data = await response.json();
+        setEntryMessages((prev) => ({
+          ...prev,
+          [intern.id]: { type: 'success', text: data.message || 'Offer letter sent to printer.' },
+        }));
+        return;
+      }
+
+      const blob = await response.blob();
+      const contentDisposition = response.headers.get('content-disposition') || '';
+      const fileNameMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+      const fallbackName = `GA_Letter_${intern.name.replace(/\s+/g, '_')}.docx`;
+      const fileName = fileNameMatch?.[1] || fallbackName;
+
+      const objectUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(objectUrl);
 
       setEntryMessages((prev) => ({
         ...prev,
-        [intern.id]: { type: 'success', text: 'Offer letter sent to printer.' },
+        [intern.id]: { type: 'success', text: 'Guide allotment letter downloaded.' },
       }));
     } catch (err) {
       setEntryMessages((prev) => ({
         ...prev,
         [intern.id]: {
           type: 'error',
-          text: err instanceof Error ? err.message : 'Offer letter printing failed',
+          text: err instanceof Error ? err.message : 'Offer letter generation failed',
         },
       }));
     } finally {
@@ -440,27 +480,64 @@ export function InternsDashboard() {
     });
 
     try {
+      const isServerLocalHost =
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname === '::1';
+      const mode = isServerLocalHost ? 'print' : 'download';
+
       const response = await fetch('/api/letters/closure', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ internId: intern.id }),
+        body: JSON.stringify({ internId: intern.id, mode }),
       });
-      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to print closure certificate');
+        let errorMessage = 'Failed to generate closure certificate';
+        try {
+          const data = await response.json();
+          errorMessage = data.error || errorMessage;
+        } catch {
+          // Ignore JSON parse errors and keep fallback message.
+        }
+        throw new Error(errorMessage);
       }
+
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const data = await response.json();
+        setEntryMessages((prev) => ({
+          ...prev,
+          [`closure_${intern.id}`]: { type: 'success', text: data.message || 'Closure certificate sent to printer.' },
+        }));
+        return;
+      }
+
+      const blob = await response.blob();
+      const contentDisposition = response.headers.get('content-disposition') || '';
+      const fileNameMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+      const fallbackName = `Closure_Certificate_${intern.name.replace(/\s+/g, '_')}.docx`;
+      const fileName = fileNameMatch?.[1] || fallbackName;
+
+      const objectUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(objectUrl);
 
       setEntryMessages((prev) => ({
         ...prev,
-        [`closure_${intern.id}`]: { type: 'success', text: 'Closure certificate sent to printer.' },
+        [`closure_${intern.id}`]: { type: 'success', text: 'Closure certificate downloaded.' },
       }));
     } catch (err) {
       setEntryMessages((prev) => ({
         ...prev,
         [`closure_${intern.id}`]: {
           type: 'error',
-          text: err instanceof Error ? err.message : 'Closure certificate printing failed',
+          text: err instanceof Error ? err.message : 'Closure certificate generation failed',
         },
       }));
     } finally {
@@ -554,19 +631,122 @@ export function InternsDashboard() {
     setPrintingIdSheet(true);
     setIdSheetMessage(null);
     try {
+      const isServerLocalHost =
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname === '::1';
+      const mode = isServerLocalHost ? 'print' : 'download';
+
       const response = await fetch('/api/letters/idcard-sheet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ internIds: [...selectedForIdCard] }),
+        body: JSON.stringify({ internIds: [...selectedForIdCard], mode }),
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Failed to print ID card data sheet');
-      setIdSheetMessage({ type: 'success', text: `Memo for ${selectedForIdCard.size} student(s) sent to printer.` });
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to generate ACS biometric memo';
+        try {
+          const data = await response.json();
+          errorMessage = data.error || errorMessage;
+        } catch {
+          // Ignore JSON parse errors and keep fallback message.
+        }
+        throw new Error(errorMessage);
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const data = await response.json();
+        setIdSheetMessage({ type: 'success', text: data.message || `Memo for ${selectedForIdCard.size} student(s) sent to printer.` });
+        setSelectedForIdCard(new Set());
+        return;
+      }
+
+      const blob = await response.blob();
+      const contentDisposition = response.headers.get('content-disposition') || '';
+      const fileNameMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+      const fallbackName = `ACS_Biometric_Request_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.docx`;
+      const fileName = fileNameMatch?.[1] || fallbackName;
+
+      const objectUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(objectUrl);
+
+      setIdSheetMessage({ type: 'success', text: `Memo for ${selectedForIdCard.size} student(s) downloaded.` });
       setSelectedForIdCard(new Set());
     } catch (err) {
-      setIdSheetMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to print' });
+      setIdSheetMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to generate memo' });
     } finally {
       setPrintingIdSheet(false);
+    }
+  };
+
+  const handleDownloadFilteredExcel = async () => {
+    if (displayedInterns.length === 0) {
+      setExportMessage({ type: 'error', text: 'No filtered records to export.' });
+      return;
+    }
+
+    setExportingFiltered(true);
+    setExportMessage(null);
+
+    try {
+      const XLSX = await import('xlsx');
+      const rows = displayedInterns.map((intern) => ({
+        Joining_Month: intern.month || '',
+        Name_CollegeDean: intern.college_dean_hod || '',
+        Name_College: intern.college || '',
+        State: intern.state || '',
+        District: intern.district || '',
+        Salute: intern.salute || '',
+        Name_Student: intern.name || '',
+        Course: intern.course || '',
+        Project_From_Date: intern.start_date || '',
+        Project_To_Date: intern.end_date || '',
+        Student_Email: intern.email || '',
+        'Student_Phone No': intern.phone || '',
+        'Email_College Dean': intern.hod_mail || '',
+        Subject: intern.project_title || intern.project_or_internship || '',
+      }));
+
+      const headers = [
+        'Joining_Month',
+        'Name_CollegeDean',
+        'Name_College',
+        'State',
+        'District',
+        'Salute',
+        'Name_Student',
+        'Course',
+        'Project_From_Date',
+        'Project_To_Date',
+        'Student_Email',
+        'Student_Phone No',
+        'Email_College Dean',
+        'Subject',
+      ];
+
+      const worksheet = XLSX.utils.json_to_sheet(rows, { header: headers });
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Filtered_Results');
+
+      const stamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      const fileName = `Filtered_Student_DB_${stamp}.xlsx`;
+      XLSX.writeFile(workbook, fileName, { compression: true });
+
+      setExportMessage({ type: 'success', text: `${displayedInterns.length} filtered record(s) exported.` });
+    } catch (error) {
+      setExportMessage({
+        type: 'error',
+        text: error instanceof Error ? error.message : 'Failed to export filtered results.',
+      });
+    } finally {
+      setExportingFiltered(false);
     }
   };
 
@@ -791,19 +971,31 @@ export function InternsDashboard() {
             </select>
           </div>
 
-          <p className="text-sm text-slate-600">
-            Showing {displayedInterns.length} of {interns.length} applications
-          </p>
+          {exportMessage && (
+            <p className={`text-sm ${exportMessage.type === 'success' ? 'text-green-700' : 'text-red-600'}`}>
+              {exportMessage.text}
+            </p>
+          )}
         </div>
       </Card>
 
       {/* Pie Chart */}
       <Card className="p-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+        <div className="grid grid-cols-1 gap-3 mb-4 md:grid-cols-3 md:items-center">
           <h3 className="text-lg font-semibold text-slate-900">Applications Pie Chart</h3>
-          <div className="flex items-center gap-3">
+          <p className="text-center text-lg font-bold text-slate-800">
+            Showing {displayedInterns.length} of {interns.length} applications
+          </p>
+          <div className="flex items-center gap-3 md:justify-end">
             <Button onClick={() => setShowIdCardDialog(true)}>
               ACS Biometric Memo
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleDownloadFilteredExcel}
+              disabled={exportingFiltered || displayedInterns.length === 0}
+            >
+              {exportingFiltered ? 'Exporting...' : 'Download Filtered Excel'}
             </Button>
           <select
             value={breakdownBy}
@@ -888,7 +1080,7 @@ export function InternsDashboard() {
                       <td className="px-1.5 py-2.5 text-sm text-slate-700 whitespace-nowrap">{intern.phone || '-'}</td>
                       <td className="px-2 py-2.5 text-slate-700 whitespace-nowrap">{formatCompactDate(intern.start_date)}</td>
                       <td className="px-2 py-2.5 text-slate-700 whitespace-nowrap">{formatCompactDate(intern.end_date)}</td>
-                      <td className="px-1.5 py-2.5 text-slate-700 whitespace-nowrap">{getRoundedDurationMonths(intern.start_date, intern.end_date)}</td>
+                      <td className="px-1.5 py-2.5 text-slate-700 whitespace-nowrap">{getDurationDays(intern.start_date, intern.end_date)}</td>
                       <td className="px-3 py-2.5">
                         <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${styles.badge}`}>
                           {styles.label}
@@ -902,7 +1094,7 @@ export function InternsDashboard() {
                             disabled={generatingLetterFor === intern.id}
                             className="h-auto px-3 py-1.5 text-sm leading-tight whitespace-nowrap"
                           >
-                            {generatingLetterFor === intern.id ? 'Printing...' : 'Guide Allotment Letter'}
+                            {generatingLetterFor === intern.id ? 'Processing...' : 'Guide Allotment Letter'}
                           </Button>
                           <Button
                             size="sm"
