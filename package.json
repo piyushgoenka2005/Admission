@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "import-csv": "tsx scripts/import-csv-data.ts",
-    "export-db": "node scripts/export-database.js",
+    "export-db": "tsx scripts/export-database.ts",
     "import-db": "tsx scripts/import-database.ts"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const { getMongoDb } = require('../lib/mongodb');
+import fs from 'fs';
+import path from 'path';
+import { getMongoDb } from '../lib/mongodb';
 
 async function exportDatabase() {
   try {

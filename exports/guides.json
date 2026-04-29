@@ -1,0 +1,804 @@
+[
+  {
+    "_id": "69f0857862ad524a45d5676c",
+    "normalized_name": "draloktaori",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "ASD/AS&LSPG/ECSA",
+    "email": "Not available",
+    "name": "Dr Alok Taori",
+    "reporting_officer": "GD, ASLSPG - Dr Ramana M V"
+  },
+  {
+    "_id": "69f0857862ad524a45d5676d",
+    "normalized_name": "dranimabiswal",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "AID/ASAG/RSA",
+    "email": "animai_d@nrsc.gov.in",
+    "name": "Dr Anima Biswal",
+    "reporting_officer": "GD, AS&AG - Dr Chowdary VM",
+    "updated_at": "2026-04-29T05:02:45.550Z"
+  },
+  {
+    "_id": "69f0857862ad524a45d5676e",
+    "normalized_name": "drarjunbm",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "AAD/AA&CIG/RSA",
+    "email": "Not available",
+    "name": "Dr Arjun BM",
+    "reporting_officer": "Head, AAD - Shri Subrat Kumar Acharya"
+  },
+  {
+    "_id": "69f0857862ad524a45d5676f",
+    "normalized_name": "drchowdaryvm",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "AG SCI OFF/ASAG/RSA",
+    "email": "Not available",
+    "name": "Dr Chowdary VM",
+    "reporting_officer": "DD, RSA"
+  },
+  {
+    "_id": "69f0857862ad524a45d56770",
+    "normalized_name": "drhareefbabashaebk",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "ASD/AS&LSPG/ECSA",
+    "email": "hareefbaba_k@nrsc.gov.in",
+    "name": "Dr Hareef Baba Shaeb K",
+    "reporting_officer": "Head, ASD - Dr Alok Taori"
+  },
+  {
+    "_id": "69f0857862ad524a45d56772",
+    "normalized_name": "drjayasaxena",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD",
+    "division": "SPID/TEOG/MSA",
+    "email": "jayasaxena@nrsc.gov.in",
+    "name": "Dr Jaya Saxena",
+    "reporting_officer": "GD, TEOG",
+    "updated_at": "2026-04-28T19:09:09.255Z"
+  },
+  {
+    "_id": "69f0857862ad524a45d56773",
+    "normalized_name": "drkandulavsubrahmanyam",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "LSP&CSD/AS&LSPG/ECSA",
+    "email": "Not available",
+    "name": "Dr Kandula V Subrahmanyam",
+    "reporting_officer": "Head, LS&CSD - Dr Rabindra Kumar Nayak"
+  },
+  {
+    "_id": "69f0857862ad524a45d56774",
+    "normalized_name": "drkarunkumarchoudhary",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "CAD/AS&AG/RSA",
+    "email": "Not available",
+    "name": "Dr Karun Kumar Choudhary",
+    "reporting_officer": "GD, AS&AG - Dr Chowdary VM"
+  },
+  {
+    "_id": "69f0857862ad524a45d56775",
+    "normalized_name": "drmanjusreep",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "AA&CIG/RSA",
+    "email": "manju.sree@nrsc.gov.in",
+    "name": "Dr Manju Sree P",
+    "reporting_officer": "DD, RSA"
+  },
+  {
+    "_id": "69f0857862ad524a45d56776",
+    "normalized_name": "drnagamanipv",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "OSD/OSG/ECSA",
+    "email": "Not available",
+    "name": "Dr Nagamani P V",
+    "reporting_officer": "DD, ECSA"
+  },
+  {
+    "_id": "69f0857862ad524a45d56778",
+    "normalized_name": "drswapnam",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "POD/OSG/ECSA",
+    "email": "swapna_m@nrsc.gov.in",
+    "name": "Dr Swapna M",
+    "reporting_officer": "Head, POD - Shri Rajesh Sikhakolli"
+  },
+  {
+    "_id": "69f0857862ad524a45d56779",
+    "normalized_name": "msshilpi",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD MSA",
+    "division": "MISD/SISG/MSA",
+    "email": "Not available",
+    "name": "Ms Shilpi",
+    "reporting_officer": "Head, MISD - Smt Jayanthi T"
+  },
+  {
+    "_id": "69f0857862ad524a45d5677a",
+    "normalized_name": "shriaakashneelbasak",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "MPSDD/MDPG/DPA",
+    "email": "aakashneel_b@nrsc.gov.in",
+    "name": "Shri Aakashneel Basak",
+    "reporting_officer": "GH, MDPG - Smt Usha Sundari"
+  },
+  {
+    "_id": "69f0857862ad524a45d5677b",
+    "normalized_name": "shriadityabhardwaj",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "DNASD/SRPG/DPA",
+    "email": "aditya_b@nrsc.gov.in",
+    "name": "Shri Aditya Bhardwaj",
+    "reporting_officer": "GH, SRPG - Shri Mani Kumar V"
+  },
+  {
+    "_id": "69f0857862ad524a45d5677d",
+    "normalized_name": "shriankitchoudhary",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "SP&FPG/DPFD/DPA",
+    "email": "ankit_c@nrsc.gov.in",
+    "name": "Shri Ankit Choudhary",
+    "reporting_officer": "GH, SPFPG - Shri Anjaneyulu RVG"
+  },
+  {
+    "_id": "69f0857862ad524a45d5677e",
+    "normalized_name": "shriaravindakumarp",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD BG&WSA",
+    "division": "BCGG/BG&WSA",
+    "email": "aravinda_p@nrsc.gov.in",
+    "name": "Shri Aravinda Kumar P",
+    "reporting_officer": "DD, BG&WSA"
+  },
+  {
+    "_id": "69f0857862ad524a45d5677f",
+    "normalized_name": "shribharathkumarreddyk",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "WRMD/WATERRE/RSA",
+    "email": "bharath_k@nrsc.gov.in",
+    "name": "Shri Bharath Kumar Reddy K",
+    "reporting_officer": "Head, WRMD - Dr K Chandrasekhar"
+  },
+  {
+    "_id": "69f0857862ad524a45d56780",
+    "normalized_name": "shridhirojkumarbehera",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "LU&CMD/SR&LUM/RSA",
+    "email": "dhiroj_kb@nrsc.gov.in",
+    "name": "Shri Dhiroj Kumar Behera",
+    "reporting_officer": "Head, SR&LUM - Dr Girish Kumar Pujar"
+  },
+  {
+    "_id": "69f0857862ad524a45d56781",
+    "normalized_name": "shriggopi",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD MSA",
+    "division": "ITID/SISG/MSA",
+    "email": "gopi@nrsc.gov.in",
+    "name": "Shri G Gopi",
+    "reporting_officer": "Head, ITID - Shri K V Raghavendra"
+  },
+  {
+    "_id": "69f0857862ad524a45d56782",
+    "normalized_name": "shriibrahimshaik",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "BOD/OSG/ECSA",
+    "email": "ibrahim_s@nrsc.gov.in",
+    "name": "Shri Ibrahim Shaik",
+    "reporting_officer": "GH, OSG - Dr Nagamani PV"
+  },
+  {
+    "_id": "69f0857862ad524a45d56783",
+    "normalized_name": "shrikrishnakishoresvsr",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD MSA",
+    "division": "SISG/MSA",
+    "email": "krishnakishore_svsr@nrsc.gov.in",
+    "name": "Shri Krishna Kishore SVSR",
+    "reporting_officer": "DD, MSA"
+  },
+  {
+    "_id": "69f0857862ad524a45d56784",
+    "normalized_name": "shrimamatakumari",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "AMD/ASAG/RSA",
+    "email": "Not available",
+    "name": "Shri Mamata Kumari",
+    "reporting_officer": "GD, AS&AG - Dr Chowdary VM"
+  },
+  {
+    "_id": "69f0857862ad524a45d56785",
+    "normalized_name": "shrinagapraneethk",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD MSA",
+    "division": "SPOD/TEOG/MSA",
+    "email": "praneeth_k@nrsc.gov.in",
+    "name": "Shri Naga Praneeth K",
+    "reporting_officer": "Head, SPOD - Dr Srinivas R"
+  },
+  {
+    "_id": "69f0857862ad524a45d56786",
+    "normalized_name": "shrinareshn",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD SDR&ISA",
+    "division": "SSD/S&ASG/SDR&ISA",
+    "email": "nareshn@nrsc.gov.in",
+    "name": "Shri Naresh N",
+    "reporting_officer": "Head, Servo Sys Div - Dr Basheerullah Baig G"
+  },
+  {
+    "_id": "69f0857862ad524a45d56787",
+    "normalized_name": "shrinikhilkumarbaranval",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "HYDROGEO/GSG/RSA",
+    "email": "Not available",
+    "name": "Shri Nikhil Kumar Baranval",
+    "reporting_officer": "GD, GSG - Dr I C Das"
+  },
+  {
+    "_id": "69f0857862ad524a45d56789",
+    "normalized_name": "shripriyomroy",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "GMED/GSG/RSA",
+    "email": "priyom_roy@nrsc.gov.in",
+    "name": "Shri Priyom Roy",
+    "reporting_officer": "GD, GSG - Dr I C Das"
+  },
+  {
+    "_id": "69f0857862ad524a45d5678a",
+    "normalized_name": "shrirajarshisaha",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "HYDROGEO/GSG/RSA",
+    "email": "rajarshi_saha@nrsc.gov.in",
+    "name": "Shri Rajarshi Saha",
+    "reporting_officer": "GD, GSG - Dr I C Das"
+  },
+  {
+    "_id": "69f0857862ad524a45d5678b",
+    "normalized_name": "shrirajashekharss",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD NRSC",
+    "division": "RRSC/NRSC",
+    "email": "Not available",
+    "name": "Shri Rajashekhar S S",
+    "reporting_officer": "CGM, RC - Dr S K Srivastav"
+  },
+  {
+    "_id": "69f0857862ad524a45d5678c",
+    "normalized_name": "shriramadasum",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "USD/USAG/RSA",
+    "email": "Not available",
+    "name": "Shri Rama Dasu M",
+    "reporting_officer": "Head, USD - Smt Kamini J"
+  },
+  {
+    "_id": "69f0857862ad524a45d5678d",
+    "normalized_name": "shrisampathkumarp",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "UHSD/USAG/RSA",
+    "email": "Not available",
+    "name": "Shri Sampath Kumar P",
+    "reporting_officer": "Head, UHSD - Smt Saiveena Suresh"
+  },
+  {
+    "_id": "69f0857862ad524a45d5678e",
+    "normalized_name": "shrisamvramsahu",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "MPSDD/MDPG/DPA",
+    "email": "Not available",
+    "name": "Shri Samvram Sahu",
+    "reporting_officer": "Head, MPSDD - Smt Jayasri PV"
+  },
+  {
+    "_id": "69f0857862ad524a45d5678f",
+    "normalized_name": "shrisatishkumarb",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD AS&DMA",
+    "division": "GSD/NSG/AS&DMA",
+    "email": "satishkumar_b@nrsc.gov.in",
+    "name": "Shri Satish Kumar B",
+    "reporting_officer": "GD, NSG - Dr Narendran J"
+  },
+  {
+    "_id": "69f0857862ad524a45d56792",
+    "normalized_name": "shrishivashakarm",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "POD/OSG/ECSA",
+    "email": "shivashankar_mr@nrsc.gov.in",
+    "name": "Shri Shiva Shakar M",
+    "reporting_officer": "Head, POD - Dr Rajesh Sikhakolli"
+  },
+  {
+    "_id": "69f0857862ad524a45d56793",
+    "normalized_name": "shrishivvaiah",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD MSA",
+    "division": "SPOD/TEOG/MSA",
+    "email": "shivvaiah@nrsc.gov.in",
+    "name": "Shri Shivvaiah",
+    "reporting_officer": "Head, SPOD - Dr Srinivas R"
+  },
+  {
+    "_id": "69f0857862ad524a45d56794",
+    "normalized_name": "shrishubhamsinghal",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "SPGD/SPF&PG/DPA",
+    "email": "Not available",
+    "name": "Shri Shubham Singhal",
+    "reporting_officer": "Head, SPGD - Smt Latha James"
+  },
+  {
+    "_id": "69f0857862ad524a45d56795",
+    "normalized_name": "shrisonusinghtomar",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "DPS&NAD/DPSG/DPA",
+    "email": "Not available",
+    "name": "Shri Sonu Singh Tomar",
+    "reporting_officer": "Head, DPS&NAD - Shri Mani Kumar V"
+  },
+  {
+    "_id": "69f0857862ad524a45d56796",
+    "normalized_name": "shrisrikanthp",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "AID/ASAG/RSA",
+    "email": "srikanth_p@nrsc.gov.in",
+    "name": "Shri Srikanth P",
+    "reporting_officer": "GD, AS&AG - Dr Chowdary VM"
+  },
+  {
+    "_id": "69f0857862ad524a45d56797",
+    "normalized_name": "shrisrikanthyadavm",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "DPF/SPFPG/DPA",
+    "email": "srikanthyadav_m@nrsc.gov.in",
+    "name": "Shri Srikanth Yadav M",
+    "reporting_officer": "GH, SPFPG - Shri Anjaneyulu RVG"
+  },
+  {
+    "_id": "69f0857862ad524a45d56798",
+    "normalized_name": "shrisrinivasreddyp",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD MSA",
+    "division": "SPOD/TEOG/MSA",
+    "email": "srinivasreddy_p@nrsc.gov.in",
+    "name": "Shri Srinivas Reddy P",
+    "reporting_officer": "Head, SPOD - Shri Ganesh VV"
+  },
+  {
+    "_id": "69f0857862ad524a45d56799",
+    "normalized_name": "shrisrinivasaraok",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "POD/OSG/ECSA",
+    "email": "srinivasrao_k@nrsc.gov.in",
+    "name": "Shri Srinivasa Rao K",
+    "reporting_officer": "Head, POD - Dr Rajesh Sikhakolli"
+  },
+  {
+    "_id": "69f0857862ad524a45d5679a",
+    "normalized_name": "shrisrinivasaraokarri",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "POD/OSG/ECSA",
+    "email": "srinivasrao_kv@nrsc.gov.in",
+    "name": "Shri Srinivasa Rao Karri",
+    "reporting_officer": "Head, POD - Dr Rajesh Sikhakolli"
+  },
+  {
+    "_id": "69f0857862ad524a45d5679b",
+    "normalized_name": "shrisubratkacharya",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "AAD/AA&CIG/RSA",
+    "email": "subrat_k@nrsc.gov.in",
+    "name": "Shri Subrat K Acharya",
+    "reporting_officer": "GH, AA&CIG - Dr Manjusree P"
+  },
+  {
+    "_id": "69f0857862ad524a45d5679c",
+    "normalized_name": "shrisumanthkumarp",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD SDR&ISA",
+    "division": "BSD/RF&BSG/SDR&ISA",
+    "email": "Not available",
+    "name": "Shri Sumanth Kumar P",
+    "reporting_officer": "Head, BSD - Dr Naga Sekhar T"
+  },
+  {
+    "_id": "69f0857862ad524a45d5679d",
+    "normalized_name": "shrisurajreddyr",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "FBED/FEG/RSA",
+    "email": "surajr@nrsc.gov.in",
+    "name": "Shri Suraj Reddy R",
+    "reporting_officer": "GD, FEG - Dr Rajashekar G"
+  },
+  {
+    "_id": "69f0857862ad524a45d5679e",
+    "normalized_name": "shrisyedshadab",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "WS&ISD/ECSA",
+    "email": "Not available",
+    "name": "Shri Syed Shadab",
+    "reporting_officer": "DD, ECSA"
+  },
+  {
+    "_id": "69f0857862ad524a45d5679f",
+    "normalized_name": "shritusharpande",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "GSD/GSG/RSA",
+    "email": "tushar_p@nrsc.gov.in",
+    "name": "Shri Tushar Pande",
+    "reporting_officer": "GD, GSG - Dr I C Das"
+  },
+  {
+    "_id": "69f0857862ad524a45d567a0",
+    "normalized_name": "shritusharwankhede",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "HYDROGEO/GSG/RSA",
+    "email": "tushar_w@nrsc.gov.in",
+    "name": "Shri Tushar Wankhede",
+    "reporting_officer": "GD, GSG - Dr I C Das"
+  },
+  {
+    "_id": "69f0857862ad524a45d567a2",
+    "normalized_name": "shrivenkatasudhakark",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD SR&QA",
+    "division": "SSQAD/HSQAG/SR&QA",
+    "email": "Not available",
+    "name": "Shri Venkata Sudhakar K",
+    "reporting_officer": "GH, HSQAG - Shri Chalapathi Rao"
+  },
+  {
+    "_id": "69f0857862ad524a45d567a3",
+    "normalized_name": "shrivenkateshd",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "ASD/AS&LSPG/ECSA",
+    "email": "venkatesh_d@nrsc.gov.in",
+    "name": "Shri Venkatesh D",
+    "reporting_officer": "Head, ASD - Dr Alok Taori"
+  },
+  {
+    "_id": "69f0857862ad524a45d567a4",
+    "normalized_name": "smtanniemariaisac",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "WRMD/WATERRE/RSA",
+    "email": "annie_mi@nrsc.gov.in",
+    "name": "Smt Annie Maria Isac",
+    "reporting_officer": "Head, WRMD - Shri K Chandrasekhar"
+  },
+  {
+    "_id": "69f0857862ad524a45d567a5",
+    "normalized_name": "smtharipriyas",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "APSDD/ODPG/DPA",
+    "email": "Not available",
+    "name": "Smt Hari Priya S",
+    "reporting_officer": "Head, APSDD - Smt Radhika T"
+  },
+  {
+    "_id": "69f0857862ad524a45d567a7",
+    "normalized_name": "smtjayasudhat",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "DMSD/DWAG/DPA",
+    "email": "jayasudha_t@nrsc.gov.in",
+    "name": "Smt Jaya Sudha T",
+    "reporting_officer": "GH, DWAG - Ms Anupama Sharma"
+  },
+  {
+    "_id": "69f0857862ad524a45d567a8",
+    "normalized_name": "smtkaminij",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "USD/USAG/RSA",
+    "email": "kamini_j@nrsc.gov.in",
+    "name": "Smt Kamini J",
+    "reporting_officer": "GD, US&AG - Dr Jayanthi SC"
+  },
+  {
+    "_id": "69f0857862ad524a45d567a9",
+    "normalized_name": "smtlathajames",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "SPGD/SPF&PG/DPA",
+    "email": "latha_james@nrsc.gov.in",
+    "name": "Smt Latha James",
+    "reporting_officer": "GH, SPFPG - Shri Anjaneyulu RVG"
+  },
+  {
+    "_id": "69f0857862ad524a45d567aa",
+    "normalized_name": "smtradhikat",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "APSDD/ODPG/DPA",
+    "email": "radhika_t@nrsc.gov.in",
+    "name": "Smt Radhika T",
+    "reporting_officer": "DD, DPA"
+  },
+  {
+    "_id": "69f0857862ad524a45d567ab",
+    "normalized_name": "smtreedhishukla",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "USD/USAG/RSA",
+    "email": "reedhi.shukla@nrsc.gov.in",
+    "name": "Smt Reedhi Shukla",
+    "reporting_officer": "Head, USD - Smt Kamini J"
+  },
+  {
+    "_id": "69f0857862ad524a45d567ac",
+    "normalized_name": "smtrunjhunchandra",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD AS&DMA",
+    "division": "ADPD/HRDPG/AS&DMA",
+    "email": "runjhun_c@nrsc.gov.in",
+    "name": "Smt Runjhun Chandra",
+    "reporting_officer": "Head, ADPG - Shri Anil Kumar G"
+  },
+  {
+    "_id": "69f0857862ad524a45d567ad",
+    "normalized_name": "smtsailajap",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "DNASD/SRPG/DPA",
+    "email": "sailaja_p@nrsc.gov.in",
+    "name": "Smt Sailaja P",
+    "reporting_officer": "GH, SRPG - Shri Mani Kumar V"
+  },
+  {
+    "_id": "69f0857862ad524a45d567ae",
+    "normalized_name": "smtsavithas",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD MSA",
+    "division": "SPID/TEOG/MSA",
+    "email": "savita_s@nrsc.gov.in",
+    "name": "Smt Savitha S",
+    "reporting_officer": "Head, SPID - Dr Jaya Saxena"
+  },
+  {
+    "_id": "69f0857862ad524a45d567af",
+    "normalized_name": "smtshafalitandon",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD MSA",
+    "division": "SPOD/TEOG/MSA",
+    "email": "shafali_t@nrsc.gov.in",
+    "name": "Smt Shafali Tandon",
+    "reporting_officer": "Head, SPOD - Dr Srinivas R"
+  },
+  {
+    "_id": "69f0857862ad524a45d567b0",
+    "normalized_name": "smtshivalivarma",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD ECSA",
+    "division": "LSP&CSD/AS&LSPG/ECSA",
+    "email": "Not available",
+    "name": "Smt Shivali Varma",
+    "reporting_officer": "Head, LS&CSD - Dr Rabindra Kumar Nayak"
+  },
+  {
+    "_id": "69f0857862ad524a45d567b1",
+    "normalized_name": "smtsobinajana",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "WAMSD/DWAG/DPA",
+    "email": "sobinaj@nrsc.gov.in",
+    "name": "Smt Sobina Jana",
+    "reporting_officer": "GH, DWAG - Ms Anupama Sharma"
+  },
+  {
+    "_id": "69f0857862ad524a45d567b2",
+    "normalized_name": "smtsrisudhas",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD DPA",
+    "division": "MPAD/SDPEG/DPA",
+    "email": "srisudha@nrsc.gov.in",
+    "name": "Smt Sri Sudha S",
+    "reporting_officer": "GH, SDPEG - Smt Santhi Sree B"
+  },
+  {
+    "_id": "69f0857862ad524a45d567b3",
+    "normalized_name": "smtstuteegupta",
+    "created_at": "2026-04-28T10:01:28.010Z",
+    "dd": "DD RSA",
+    "division": "RD&WMD/SR&LUM/RSA",
+    "email": "stutee@nrsc.gov.in",
+    "name": "Smt Stutee Gupta",
+    "reporting_officer": "Head, RD&WMD - Dr Anjum Mahatab"
+  },
+  {
+    "_id": "69f08e9d62ad524a45d567b5",
+    "normalized_name": "jayabharathi",
+    "created_at": "2026-04-28T10:40:29.825Z",
+    "dd": "DD DPA",
+    "division": "MPAD/SDPEG/DPA",
+    "email": "jaya_bh@nrsc.gov.in",
+    "name": "Smt Jaya Bharathi",
+    "reporting_officer": "Head, MPAD - Smt Sri Sudha S"
+  },
+  {
+    "_id": "69f08e9d62ad524a45d567b6",
+    "normalized_name": "icdas",
+    "created_at": "2026-04-28T10:40:29.831Z",
+    "dd": "DD RSA",
+    "division": "HYDROGEO/GSG/RSA",
+    "email": "ic@nrsc.gov.in",
+    "name": "Dr I C Das",
+    "reporting_officer": "GD, GSG - Dr I C Das"
+  },
+  {
+    "_id": "69f08e9d62ad524a45d567b7",
+    "normalized_name": "shashankkumarmishra",
+    "created_at": "2026-04-28T10:40:29.834Z",
+    "dd": "DD ECSA",
+    "division": "POD/OSG/ECSA",
+    "email": "shashank_m@nrsc.gov.in",
+    "name": "Shri Shashank Kumar Mishra",
+    "reporting_officer": "Head, POD - Shri Rajesh Sikhakolli"
+  },
+  {
+    "_id": "69f08e9d62ad524a45d567b8",
+    "normalized_name": "srinivasr",
+    "created_at": "2026-04-28T10:40:29.839Z",
+    "dd": "DD MSA",
+    "division": "SPOD/TEOG/MSA",
+    "email": "srinivasr@nrsc.gov.in",
+    "name": "Dr Srinivas R",
+    "reporting_officer": "GD, TEOG"
+  },
+  {
+    "_id": "69f08e9d62ad524a45d567b9",
+    "normalized_name": "satyasomashekark",
+    "created_at": "2026-04-28T10:40:29.843Z",
+    "dd": "DD DPA",
+    "division": "CR-DPD/ODPG/DPA",
+    "email": "satya.singh@nrsc.gov.in",
+    "name": "Shri Satya Soma Shekar K",
+    "reporting_officer": "GH, ODPG"
+  },
+  {
+    "_id": "69f08e9d62ad524a45d567ba",
+    "normalized_name": "anilyadav",
+    "created_at": "2026-04-28T10:40:29.848Z",
+    "dd": "DD RSA",
+    "division": "AS&CID/AA&CIG/RSA",
+    "email": "anil_y@nrsc.gov.in",
+    "name": "Shri Anil Yadav",
+    "reporting_officer": "Head, AS&CID - Dr Rama Mohana Rao K"
+  },
+  {
+    "_id": "69f08e9d62ad524a45d567bb",
+    "normalized_name": "venkataraghavendrak",
+    "created_at": "2026-04-28T10:40:29.851Z",
+    "dd": "DD MSA",
+    "division": "ITID/SISG/MSA",
+    "email": "raghavendra_kv@nrsc.gov.in",
+    "name": "Shri Venkata Raghavendra K",
+    "reporting_officer": "GH, SISG - Shri Krishna Kishore SVSR"
+  },
+  {
+    "_id": "69f08e9d62ad524a45d567bc",
+    "normalized_name": "pavankumarbairavarasu",
+    "created_at": "2026-04-28T10:40:29.857Z",
+    "dd": "DD MSA",
+    "division": "ISD/SISG/MSA",
+    "email": "pavankumar_b@nrsc.gov.in",
+    "name": "Shri Pavan Kumar Bairavarasu",
+    "reporting_officer": "GH, SISG - Shri Krishna Kishore SVSR"
+  },
+  {
+    "_id": "69f0974c62ad524a45d567bf",
+    "normalized_name": "dricdas",
+    "created_at": "2026-04-28T11:17:32.493Z",
+    "dd": "DD RSA",
+    "division": "HYDROGEO/GSG/RSA",
+    "email": "ic@nrsc.gov.in",
+    "name": "Dr I C Das",
+    "reporting_officer": "GD, GSG - Dr I C Das"
+  },
+  {
+    "_id": "69f0974c62ad524a45d567c0",
+    "normalized_name": "drsrinivasr",
+    "created_at": "2026-04-28T11:17:32.493Z",
+    "dd": "DD MSA",
+    "division": "SPOD/TEOG/MSA",
+    "email": "srinivasr@nrsc.gov.in",
+    "name": "Dr Srinivas R",
+    "reporting_officer": "GD, TEOG"
+  },
+  {
+    "_id": "69f0974c62ad524a45d567c1",
+    "normalized_name": "shrianilyadav",
+    "created_at": "2026-04-28T11:17:32.493Z",
+    "dd": "DD RSA",
+    "division": "AS&CID/AA&CIG/RSA",
+    "email": "anil_y@nrsc.gov.in",
+    "name": "Shri Anil Yadav",
+    "reporting_officer": "Head, AS&CID - Dr Rama Mohana Rao K"
+  },
+  {
+    "_id": "69f0974c62ad524a45d567c2",
+    "normalized_name": "shripavankumarbairavarasu",
+    "created_at": "2026-04-28T11:17:32.493Z",
+    "dd": "DD MSA",
+    "division": "ISD/SISG/MSA",
+    "email": "pavankumar_b@nrsc.gov.in",
+    "name": "Shri Pavan Kumar Bairavarasu",
+    "reporting_officer": "GH, SISG - Shri Krishna Kishore SVSR"
+  },
+  {
+    "_id": "69f0974c62ad524a45d567c3",
+    "normalized_name": "shrisatyasomashekark",
+    "created_at": "2026-04-28T11:17:32.494Z",
+    "dd": "DD DPA",
+    "division": "CR-DPD/ODPG/DPA",
+    "email": "satya.singh@nrsc.gov.in",
+    "name": "Shri Satya Soma Shekar K",
+    "reporting_officer": "GH, ODPG"
+  },
+  {
+    "_id": "69f0974c62ad524a45d567c4",
+    "normalized_name": "shrishashankkumarmishra",
+    "created_at": "2026-04-28T11:17:32.494Z",
+    "dd": "DD ECSA",
+    "division": "POD/OSG/ECSA",
+    "email": "shashank_m@nrsc.gov.in",
+    "name": "Shri Shashank Kumar Mishra",
+    "reporting_officer": "Head, POD - Shri Rajesh Sikhakolli"
+  },
+  {
+    "_id": "69f0974c62ad524a45d567c5",
+    "normalized_name": "shrivenkataraghavendrak",
+    "created_at": "2026-04-28T11:17:32.494Z",
+    "dd": "DD MSA",
+    "division": "ITID/SISG/MSA",
+    "email": "raghavendra_kv@nrsc.gov.in",
+    "name": "Shri Venkata Raghavendra K",
+    "reporting_officer": "GH, SISG - Shri Krishna Kishore SVSR"
+  },
+  {
+    "_id": "69f0974c62ad524a45d567c6",
+    "normalized_name": "smtjayabharathi",
+    "created_at": "2026-04-28T11:17:32.494Z",
+    "dd": "DD DPA",
+    "division": "MPAD/SDPEG/DPA",
+    "email": "jaya_bh@nrsc.gov.in",
+    "name": "Smt Jaya Bharathi",
+    "reporting_officer": "Head, MPAD - Smt Sri Sudha S"
+  }
+]
