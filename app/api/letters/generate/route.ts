@@ -3,7 +3,6 @@ import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import { getInternById } from '@/lib/db';
 
 export const runtime = 'nodejs';
 
@@ -109,38 +108,14 @@ async function runLetterGeneration(
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const internId = typeof body?.internId === 'string' ? body.internId.trim() : '';
+    const studentPayload = body?.studentPayload;
     const mode = body?.mode === 'print' ? 'print' : 'download';
 
-    if (!internId) {
-      return NextResponse.json({ error: 'Student ID is required' }, { status: 400 });
+    if (!studentPayload) {
+      return NextResponse.json({ error: 'Student Payload is required' }, { status: 400 });
     }
 
-    const intern = await getInternById(internId);
-    if (!intern) {
-      return NextResponse.json({ error: 'Student not found' }, { status: 404 });
-    }
-
-    const studentPayload = {
-      salute: intern.salute,
-      name: intern.name,
-      email: intern.email,
-      college: intern.college,
-      district: intern.district,
-      guide_name: intern.guide_name,
-      guide_area: intern.guide_area,
-      course: intern.course,
-      start_date: intern.start_date,
-      end_date: intern.end_date,
-      allotment_date: intern.allotment_date,
-      month: intern.month,
-      sl_no: intern.sl_no,
-      college_dean_hod: intern.college_dean_hod,
-      guide_reporting_officer: intern.guide_reporting_officer,
-      dd: intern.dd,
-    };
-
-    const scriptPath = path.join(process.cwd(), 'generate_letter.py');
+    const scriptPath = path.join(process.cwd(), 'scripts', 'generate_letter.py');
     const tempOutputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'websa-offer-print-'));
     const result = await runLetterGeneration(scriptPath, studentPayload, tempOutputDir, {
       sendToPrinter: mode === 'print',

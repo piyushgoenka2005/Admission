@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <div id="status">Connecting...</div>
+    <div id="messages"></div>
+    <button onclick="sendTest()">Send Test Message</button>
+    
+    <script>
+        const socket = io('http://localhost:3000', {
+            path: '/api/socket/io',
+            transports: ['websocket', 'polling']
+        });
+        
+        socket.on('connect', () => {
+            document.getElementById('status').innerHTML = '✅ Connected: ' + socket.id;
+            console.log('Connected to WebSocket:', socket.id);
+        });
+        
+        socket.on('disconnect', () => {
+            document.getElementById('status').innerHTML = '❌ Disconnected';
+            console.log('Disconnected from WebSocket');
+        });
+        
+        socket.on('newApplication', (data) => {
+            const messagesDiv = document.getElementById('messages');
+            const message = document.createElement('div');
+            message.innerHTML = '📨 New Application: ' + JSON.stringify(data, null, 2);
+            messagesDiv.appendChild(message);
+            console.log('New application received:', data);
+        });
+        
+        socket.on('connect_error', (error) => {
+            document.getElementById('status').innerHTML = '❌ Connection Error: ' + error;
+            console.error('WebSocket connection error:', error);
+        });
+        
+        function sendTest() {
+            socket.emit('testMessage', { text: 'Test from HTML page' });
+        }
+    </script>
+</body>
+</html>

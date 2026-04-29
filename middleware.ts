@@ -10,10 +10,10 @@ export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   const protectedRoute =
-    pathname.startsWith('/dashboard') ||
-    pathname.startsWith('/intern') ||
-    pathname.startsWith('/api/interns') ||
-    pathname.startsWith('/api/letters');
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/api/admin') ||
+    pathname.startsWith('/api/guides') ||
+    (pathname === '/api/portal-settings' && request.method !== 'GET');
 
   if (!protectedRoute) {
     return NextResponse.next();
@@ -33,5 +33,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/intern/:path*', '/api/interns/:path*', '/api/letters/:path*'],
+  matcher: ['/admin/:path*', '/api/admin/:path*', '/api/guides/:path*', '/api/portal-settings'],
 };

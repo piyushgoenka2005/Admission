@@ -1,9 +1,8 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import { getInternById } from '@/lib/db';
 
 export const runtime = 'nodejs';
 
@@ -130,34 +129,15 @@ async function handleClosure(request: Request) {
   let tempOutputDir = '';
 
   try {
-    let internId = '';
-    let mode: 'print' | 'download' = 'download';
-    if (request.method === 'GET') {
-      const { searchParams } = new URL(request.url);
-      internId = (searchParams.get('internId') || '').trim();
-      mode = searchParams.get('mode') === 'print' ? 'print' : 'download';
-    } else {
-      const body = await request.json().catch(() => ({}));
-      internId = typeof body?.internId === 'string' ? body.internId.trim() : '';
-      mode = body?.mode === 'print' ? 'print' : 'download';
+    const body = await request.json().catch(() => ({}));
+    const studentPayload = body?.studentPayload;
+    const mode = body?.mode === 'print' ? 'print' : 'download';
+
+    if (!studentPayload) {
+      return NextResponse.json({ error: 'Student Payload is required' }, { status: 400 });
     }
 
-    if (!internId) {
-      return NextResponse.json({ error: 'Student ID is required' }, { status: 400 });
-    }
-
-    const intern = await getInternById(internId);
-    if (!intern) {
-      return NextResponse.json({ error: 'Student not found' }, { status: 404 });
-    }
-
-    const studentPayload = {
-      name: intern.name,
-      start_date: intern.start_date,
-      end_date: intern.end_date,
-    };
-
-    const scriptPath = path.join(process.cwd(), 'generate_closure.py');
+    const scriptPath = path.join(process.cwd(), 'scripts', 'generate_closure.py');
     tempOutputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'websa-closure-'));
     const result = await runClosureGeneration(scriptPath, studentPayload, tempOutputDir, {
       sendToPrinter: mode === 'print',
@@ -195,7 +175,7 @@ async function handleClosure(request: Request) {
     const fileBuffer = fs.readFileSync(filePath);
     const fileName = path.basename(filePath);
 
-    return new Response(fileBuffer, {
+    return new NextResponse(fileBuffer, {
       status: 200,
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -215,10 +195,6 @@ async function handleClosure(request: Request) {
       }
     }
   }
-}
-
-export async function GET(request: Request) {
-  return handleClosure(request);
 }
 
 export async function POST(request: Request) {
